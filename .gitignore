@@ -1,0 +1,17 @@
+# Editors
+*.swp
+.vscode
+
+# Python
+*__pycache__
+*.pyc
+
+# Disable Celery Beat files
+*celerybeat-schedule
+*celerybeat.pid
+
+# SQL
+*.sqlite
+
+# ENV
+*.env*

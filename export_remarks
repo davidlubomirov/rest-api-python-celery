@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+main()
+{
+    leasot -x --reporter markdown '**/*.py' > TODO.md
+}
+
+main

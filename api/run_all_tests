@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+source .env
+
+main()
+{
+    python -m unittest discover app/tests
+}
+
+main

@@ -1,0 +1,184 @@
+#%RAML 1.0
+---
+title: Contacts API
+baseUri: http://localhost:5000/api
+version: v1
+
+/contact:
+    get:
+        description: Retrieve all or queried contact
+        responses:
+            200:
+                body:
+                    application/json:
+                        example: |
+                            [
+                                {
+                                    "username" : "<contact_username>",
+                                    "first_name" : "<contact_first_name>",
+                                    "last_name" : "<contact_last_name>"
+                                },
+                                {
+                                    "username" : "<contact_username>",
+                                    "first_name" : "<contact_first_name>",
+                                    "last_name" : "<contact_last_name>"
+                                }
+                            ]
+        queryParameters:
+            required: false
+            username:
+                type : string
+                description: The username associated to contact
+                required: true
+                responses:
+                    200:
+                        body:
+                            application/json:
+                                example: |
+                                    {
+                                        "username" : "<contact_username>",
+                                        "first_name" : "<contact_first_name>",
+                                        "last_name" : "<contact_last_name>"
+                                    }
+                    404:
+                        body:
+                            application/json:
+                                example: |
+                                    {
+                                        "msg" : "contact does not exist"
+                                    }
+    post:
+        description: Create new contact
+        headers:
+            Content-Type:
+                required: true
+                enum : [application/json]
+        responses:
+            400:
+                description: Missing HTTP header
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "invalid request"
+                            }
+            422:
+                description: Invalid input values
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "first_name": [
+                                    "Data not provided."
+                                ],
+                                "last_name": [
+                                    "Data not provided."
+                                ],
+                                "username": [
+                                    "Data not provided."
+                                ]
+                            }
+            409:
+                description: User already exist
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "username already exist"
+                            }
+            200:
+                description: Contact created with success
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "successfully created user with: <contact_username>"
+                            }
+    put:
+        description: Update field for existing contact
+        headers:
+            Content-Type:
+                required: true
+                enum : [application/json]
+        responses:
+            400:
+                description: Missing HTTP header
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "invalid request"
+                            }
+            422:
+                description: Invalid input values
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "first_name": [
+                                    "Data not provided."
+                                ],
+                                "last_name": [
+                                    "Data not provided."
+                                ],
+                                "username": [
+                                    "Data not provided."
+                                ]
+                            }
+            404:
+                description: Non existing contact
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "contact with this username does not exist"
+                            }
+            200:
+                description: Contact update success
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "contact was succesfully updated",
+                                "contact" : {
+                                    "username" : "<contact_username>",
+                                    "first_name" : "<updated_contact_first_name>"
+                                    "last_name" : "<updated_contact_last_name>"
+                                }
+                            }
+    delete:
+        description: Delete contact
+        headers:
+            Content-Type:
+                required: true
+                enum : [application/json]
+        queryParameters:
+            username:
+                required: true
+                type: string
+                responses:
+                    404:
+                        description: Contact with this username doesn't exist
+                        body:
+                            application/json:
+                                example: |
+                                    {
+                                        "msg" : "contact doesn't exist"
+                                    }
+                    200:
+                        description: Contact deleted with success
+                        body:
+                            application/json:
+                                example: |
+                                    {
+                                        "msg" : "contact deleted"
+                                    }
+        responses:
+            400:
+                description: Invalid request. This methods works only with query parameter
+                body:
+                    application/json:
+                        example: |
+                            {
+                                "msg" : "invalid request"
+                            }
